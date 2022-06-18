@@ -138,8 +138,19 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int r;
+        int c;
+        for (r = 0; r < b.size(); r += 1) {
+            for (c = 0; c < b.size(); c += 1) {
+                if (b.tile(c, r) == null) {
+                    return true;
+                }
+            }
+
+        }
         return false;
     }
+
 
     /**
      * Returns true if any tile is equal to the maximum valid value.
@@ -147,9 +158,20 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int r;
+        int c;
+        for (r = 0; r < b.size(); r += 1) {
+            for (c = 0; c < b.size(); c += 1) {
+                if (b.tile(c,r)!=null&&b.tile(c, r).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+
+        }
         return false;
     }
+
+
 
     /**
      * Returns true if there are any valid moves on the board.
@@ -157,8 +179,43 @@ public class Model extends Observable {
      * 1. There is at least one empty space on the board.
      * 2. There are two adjacent tiles with the same value.
      */
+
+    public static boolean adjRight(Board b, Tile t) {
+        if( t.col()==b.size()-1){
+            return false;
+        }
+        if (t.value() == b.tile(t.col() + 1, t.row()).value()) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean adjUp(Board b, Tile t) {
+        if( t.row()==b.size()-1){
+            return false;
+        }
+        if (t.value() == b.tile(t.col(), t.row() + 1).value()){
+            return true;
+        }
+        return false;
+    }
+
+
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        int r;
+        int c;
+        Tile t;
+        for (r = 0; r < b.size(); r += 1) {
+            for (c = 0; c < b.size(); c += 1) {
+                t = b.tile(c, r);
+                if ((adjRight(b, t)) || (adjUp(b, t))){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
